@@ -1,0 +1,64 @@
+<html>
+<head>
+<title></title>
+    <link rel='stylesheet' href='css/style.css' />
+</head>
+<body>
+  <h1>The Dojo Message Board</h1>
+  <hr>
+  <form id="post_message" style="width: 60%;" class="pure-form pure-form-aligned" action="/post_message" method="post">
+    <fieldset>
+        <div class="pure-control-group">
+            <label for="name">Name:</label>
+            <input id="name" type="text" name="name" placeholder="name">
+        </div>
+        <div class="pure-control-group">
+            <label for="message">Message:</label>
+            <textarea name="message"></textarea>
+        </div>
+            <button type="submit" class="pure-button pure-button-primary">Post message</button>
+        </div>
+    </fieldset>
+</form>
+<% if(typeof(errors) != 'undefined'){
+  for(var x in errors) { %>
+    <h3><%= errors[x].message %></h3>
+<%  }
+} else { %>
+      <div>
+            <% if(messages != 'undefined'){
+                  for(var index in messages) {
+              %>
+                      <div id="message">
+                      <!-- <p><%= messages[0].comments %></p> -->
+                            <p>Name:<%= messages[index].name %></p>
+                            <p>Message:<%= messages[index].message_text %></p>
+                            <%  for(var j in messages[index].comments) {
+                                    if(messages[index].comments) { %>
+                                        <p>Comments:</p>
+                                        <ul>
+                                          <li style="margin-left: 10px;">Name: <%= messages[index].comments[j].name %></li>
+                                          <li style="margin-left: 10px;">Comment: <%= messages[index].comments[j].comment_text %></li>
+                                        </ul>
+                            <% }} %>
+                            <form style="margin-left: 20px; width: 40%;" class="pure-form pure-form-aligned" action="/post_comment/<%= messages[index]._id %>" method="post">
+                              <fieldset>
+                                  <div class="pure-control-group">
+                                      <label for="name">Name:</label>
+                                      <input id="name" type="text" name="name" placeholder="name">
+                                  </div>
+                                  <div class="pure-control-group">
+                                      <label for="comment">Comment:</label>
+                                      <textarea name="comment_text"></textarea>
+                                  </div>
+                                      <button type="submit" class="pure-button pure-button-primary">Post comment</button>
+                              </fieldset>
+                          </form>
+                    </div>
+                <% } %>
+              </div>
+            <% } %>
+        <% } %>
+
+</body>
+</html>
